@@ -6,6 +6,17 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/one000mph/raincatcher-clinic"
+  },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "hapi": "^11.0.2",
+    "inert": "^3.1.0",
+    "jade": "^1.11.0",
+    "qs": "^5.2.0",
+    "vision": "^3.0.0"
+  }
 }

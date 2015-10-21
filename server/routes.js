@@ -28,10 +28,16 @@ module.exports = function _routes () {
     }, {
 
         method: 'GET',
+        path: '/inbound',
+        handler: function (request, reply) {
+            reply.view('inbound');
+        }
+    },
+    {
+        method: 'GET',
         path: '/',
         handler: function (request, reply) {
-            console.log("triggering handler");
-            reply.view('inbound');
+            reply.view('index');
         }
     }];
 

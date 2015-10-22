@@ -1,5 +1,8 @@
 var views = require('./views');
-// var validateUtils = require('./utils/validateUtils.js');
+
+var accountSid = 'AC8e8a461a65b27a908692a92dc8133533';
+var authToken = "5030a2f3988f7815ef679011170d0b13";
+var client = require('twilio')(accountSid, authToken);
 
 
 module.exports = function _routes () {
@@ -39,13 +42,9 @@ module.exports = function _routes () {
         method: 'GET',
         path: '/',
         handler: function (request, reply) {
-            return reply().redirect('/index');
-        }
-    },
-    {
-        method: 'GET',
-        path: '/index',
-        handler: function (request, reply) {
+            var messages = client.messages.get(function (err, response) {
+                views.dbHelper(response);
+            });
             reply.view('index');
         }
     }

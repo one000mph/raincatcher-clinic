@@ -25,10 +25,12 @@ module.exports = function _routes () {
         path: '/favicon.ico',
         config: { auth: false },
         handler: { file: { path: './public/favicon.ico' } }
-    }, {
+    }, 
+    ///// Initial handlers
+    {
 
-        method: 'GET',
-        path: '/inbound',
+        method: 'POST',
+        path: '/',
         handler: function (request, reply) {
             reply.view('inbound');
         }
@@ -37,9 +39,17 @@ module.exports = function _routes () {
         method: 'GET',
         path: '/',
         handler: function (request, reply) {
+            return reply().redirect('/index');
+        }
+    },
+    {
+        method: 'GET',
+        path: '/index',
+        handler: function (request, reply) {
             reply.view('index');
         }
-    }];
+    }
+    ];
 
     return routes;
 

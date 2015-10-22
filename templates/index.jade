@@ -1,3 +1,12 @@
 extends ./layout
 
 block body
+    //- - console.log("DATA is", locals)
+    ul
+      each message in locals
+        li
+          ul 
+            li TimeStamp: #{message.timestamp}
+            li Signal: #{message.signal_strength}
+            li Network: #{message.network}
+            li GPS: #{message.gps_coords}

@@ -3,7 +3,7 @@ var db = new sqlite3.Database('rain_db');
 
 var S = require('string');
 
-var dbHelper = function dbHelper (allMessages) {
+var dbHelper = function dbHelper (allMessages, callback) {
 	db.serialize(function () {
 		var stmt = db.prepare("INSERT INTO transmission (timestamp, signal_strength, network, gps_coords) VALUES (?, ?, ?, ?)");
 		// for each message parse it and add data to the db
@@ -19,30 +19,25 @@ var dbHelper = function dbHelper (allMessages) {
 	            });
             }
         });
-        stmt.finalize();
+        stmt.finalize(callback);
 	});
 };
 
 var parseBody = function parseBody(messageBody, callback) {
 	// verify that the message is valid
-	var beginning = messageBody.substr(0,7);
-	if (beginning !== "+CCLK: ") {
+	var isTransmission = S(messageBody).contains("+CCLK");
+	if (!isTransmission) {
 		console.log("Beginning of received message " + messageBody + " is not valid, CONTINUING\n\n");
 	}
 	// assume the rest is ok
 	else {
-		console.log("WHOLE MESSAGE:", messageBody);
 		var timestamp = S(messageBody).between("+CCLK: ", "\n").strip('"').s;
-		console.log("TIMESTAMP:", timestamp);
 		var signalStrength = S(messageBody).between("+CSQ: ", "\n").s;
-		console.log("SIGNAL:",signalStrength);
 		var network = S(messageBody).between("+COPS: ", "\n").s;
 		var gpsCoords = "";
-		console.log("NETWORK:",network);
 		if (S(messageBody).contains("GPGGA")) {
 			gpsCoords = S(messageBody).between("GPGGA,").s;
 		}
-		console.log("GPS:",gpsCoords);
 	}
 	messageData = {
 		timestamp: timestamp,

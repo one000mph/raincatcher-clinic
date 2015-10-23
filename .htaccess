@@ -1,0 +1,6 @@
+Options +ExecCGI
+SetHandler cgi-script
+
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule (.*) server.cgi

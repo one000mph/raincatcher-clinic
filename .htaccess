@@ -1,6 +1,8 @@
 Options +ExecCGI
 SetHandler cgi-script
 
+#ScriptAlias "/cgi-bin/" "/"
+
 RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule (.*) server.cgi

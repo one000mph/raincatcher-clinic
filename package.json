@@ -15,12 +15,13 @@
   "dependencies": {
     "getconfig": "^2.1.0",
     "hapi": "^11.0.2",
-    "inert": "^3.1.0",
     "jade": "^1.11.0",
+    "lodash": "^3.10.1",
+    "q": "^1.4.1",
     "qs": "^5.2.0",
+    "sequelize": "^3.12.2",
     "sqlite3": "^3.1.0",
     "string": "^3.3.1",
-    "twilio": "^2.5.1",
-    "vision": "^3.0.0"
+    "twilio": "^2.5.1"
   }
 }

@@ -1,7 +1,6 @@
 {
   
-
-  "hostname": "localhost",
-  "port": 8000
+  "twilioAccountSID": "AC8e8a461a65b27a908692a92dc8133533",
+  "twilioAuthToken": "5030a2f3988f7815ef679011170d0b13"
 
 }

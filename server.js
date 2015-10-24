@@ -4,7 +4,7 @@ var sqlite3 = require('sqlite3').verbose();
 var db = new sqlite3.Database('rain_db');
 
 db.serialize(function () {
-    db.run ("CREATE TABLE IF NOT EXISTS transmission (timestamp TEXT, signal_strength TEXT, network TEXT, gps_coords TEXT)")
+    db.run ("CREATE TABLE IF NOT EXISTS transmission (timestamp TEXT PRIMARY KEY UNIQUE, signal_strength TEXT, network TEXT, gps_coords TEXT)")
     db.close();
 });
 

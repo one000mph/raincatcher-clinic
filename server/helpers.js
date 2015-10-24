@@ -1,5 +1,9 @@
-var sqlite3 = require('sqlite3').verbose();
-var db = new sqlite3.Database('rain_db');
+var Sequelize = require('sequelize');
+var sequelize = new Sequelize('rain_db', null, null, {
+	dialect: 'sqlite',
+	logging: false,
+	storage: './rain_db'
+});
 
 var S = require('string');
 

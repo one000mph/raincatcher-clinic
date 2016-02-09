@@ -15,6 +15,7 @@
   "dependencies": {
     "getconfig": "^2.1.0",
     "hapi": "^11.0.2",
+    "inert": "^3.2.0",
     "jade": "^1.11.0",
     "jade-bootstrap": "^1.0.1",
     "lodash": "^3.10.1",
@@ -23,6 +24,7 @@
     "sequelize": "^3.12.2",
     "sqlite3": "^3.1.0",
     "string": "^3.3.1",
-    "twilio": "^2.5.1"
+    "twilio": "^2.5.1",
+    "vision": "^4.0.1"
   }
 }

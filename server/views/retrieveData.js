@@ -4,6 +4,7 @@ var config = require('getconfig');
 var _ = require('lodash');
 
 var fetch = function fetch(request, reply) {
+	console.log('requesting page');
 	helpers.Message.findAll({order: 'createdAt DESC'}).then(function (transmissions) {
 		var truncatedData = transmissions.splice(0, 10);
 		var orderedData = truncatedData.reverse();

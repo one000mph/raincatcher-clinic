@@ -18,12 +18,7 @@ module.exports = function _routes () {
         path: '/js/{path}',
         config: { auth: false },
         handler: { directory: { path: './public/js', listing: false } }
-    }, {
-        method: 'GET',
-        path: '/favicon.ico',
-        config: { auth: false },
-        handler: { file: { path: './public/favicon.ico' } }
-    }, 
+    },
     ///// Initial handlers
     {
 

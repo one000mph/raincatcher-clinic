@@ -1,0 +1,100 @@
+.refresh-db {
+	float: left;
+	width: 100px;
+	height: 50px;
+	background-color: #87bcc1;
+}
+.scrollable {
+	overflow-y: scroll;
+	max-height:300px;
+	height: 50%;
+	width: 95%;
+}
+
+.tank-box {
+	height: 250px;
+	width: 100%;
+	position: relative;
+	float: left;
+	margin: 10px;
+}
+
+.tank {
+	width: 200px;
+	height: 100%;
+	float: left;
+	position: relative;
+	border: 2px solid #000;
+	margin: 3px;
+}
+
+.tank-metric {
+	float: left;
+	height:100%;
+}
+
+.tank-top {
+	top: 0px;
+}
+
+.tank-level {
+	position: relative;
+	left: 100%;
+	padding: 2px;
+	margin: 3px;
+	margin-top: -0.7em;
+}
+
+.tank-bottom {
+	position: relative;
+	top: 225px;
+}
+
+
+.water {
+	position: absolute;
+	width: 100%;
+	left: 0;
+	bottom: 0;
+	background-color: #87bcc1;
+}
+
+.table-content {
+	position: relative;
+	float: left;
+
+}
+
+.axis path,
+.axis line
+{
+    fill: none;
+    stroke: #777;
+    shape-rendering: crispEdges;
+}
+
+.axis text
+{
+    font-family: 'Arial';
+    font-size: 13px;
+}
+.tick
+{
+    stroke-dasharray: 1, 2;
+}
+.bar
+{
+    fill: FireBrick;
+}
+
+.water-graph {
+	width: 800px;
+	height: 320px;
+	padding: 20px;
+	position: relative;
+	float: left;
+}
+
+text {
+  font: 10px sans-serif;
+}

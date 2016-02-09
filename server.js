@@ -11,7 +11,7 @@ var helpers = require('./server/helpers');
 var server = new Hapi.Server();
 server.connection({
     host: 'localhost',
-    port: process.env.PORT || 8000;
+    port: process.env.PORT || 8000
 });
 server.register([require('inert'), require('vision')], function(err) {
 

@@ -1,14 +1,4 @@
-var views = require('./helpers');
-
-var config = require('getconfig');
-var accountSid = config.twilioAccountSID;
-var authToken = config.twilioAuthToken;
-var client = require('twilio')(accountSid, authToken);
-var dbHelper = require('../dbHelper');
-
-var _ = require('lodash');
-
-var sequelize = dbHelper.sequelize;
+var views = require('./views');
 
 module.exports = function _routes () {
 
@@ -39,19 +29,12 @@ module.exports = function _routes () {
 
         method: 'POST',
         path: '/',
-        handler: function (request, reply) {
-            reply.view('inbound');
-        }
+        handler: views.receive.receiveMessage
     },
     {
         method: 'GET',
         path: '/',
-        handler: function (request, reply) {
-            dbHelper.Transmission.findAll().then(function (transmissions) {
-                var transmissionData = _.pluck(transmissions, 'dataValues');
-                reply.view('index', transmissionData);
-            });
-        }
+        handler: views.retrieveData.fetch
     }
     ];
 

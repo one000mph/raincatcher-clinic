@@ -1,8 +1,63 @@
 doctype html
 head
-  link(rel="stylesheet", href="/css/main.css")
+  link(rel="stylesheet", type="text/css", href="../main.css")
   meta(charset="utf-8")
   meta(name="viewport", content="width=device-width,initial-scale=1.0")
   meta(http-eqiv="refresh", content="3;URL='http://www.cs.hmc.edu/~hseaman/raincatcher-clinic'")
+  script(src="//code.jquery.com/jquery-1.11.3.min.js")
+  script(src="//d3js.org/d3.v3.min.js")
+  script.
+    function InitChart(lineData) {
+      var vis = d3.select("#visualization"),
+        WIDTH = 800,
+        HEIGHT = 500,
+        MARGINS = {
+          top: 20,
+          right: 20,
+          bottom: 20,
+          left: 50
+        },
+        xRange = d3.scale.linear().range([MARGINS.left, WIDTH - MARGINS.right]).domain([0,5]),
+
+        yRange = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([0,250]),
+
+        xAxis = d3.svg.axis()
+          .scale(xRange)
+          .tickSize(5)
+          .tickSubdivide(true),
+
+        yAxis = d3.svg.axis()
+          .scale(yRange)
+          .tickSize(5)
+          .orient("left")
+          .tickSubdivide(true);
+
+
+      vis.append("svg:g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + (HEIGHT - MARGINS.bottom) + ")")
+        .call(xAxis);
+
+      vis.append("svg:g")
+        .attr("class", "y axis")
+        .attr("transform", "translate(" + (MARGINS.left) + ",0)")
+        .call(yAxis);
+
+
+      var lineFunc = d3.svg.line()
+        .x(function(d) {
+          return xRange(d.x);
+        })
+        .y(function(d) {
+          return yRange(d.y);
+        })
+        .interpolate('linear');
+
+      vis.append('svg:path')
+        .attr('d', lineFunc(lineData))
+        .attr('stroke', 'blue')
+        .attr('stroke-width', 2)
+        .attr('fill', 'none');
+    }
 
   title RainCatcher Data Monitor

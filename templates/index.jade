@@ -1,12 +1,185 @@
-extends ./layout
+extends ../node_modules/jade-bootstrap/_bootstrap
+append styles
+	// Custom styles for this template
+	- var filepath = "../node_modules/jade-bootstrap"
+	link(href='#{filepath}/css/sticky-footer-navbar.css', rel='stylesheet')
+	link(href='../css/custom.css', rel='stylesheet')
+	title Raincatcher Clinic
+append scripts
+	script(src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.min.js")
+	script.
 
+		Date.prototype.customFormat = function(formatString){
+		  var YYYY,YY,MMMM,MMM,MM,M,DDDD,DDD,DD,D,hhhh,hhh,hh,h,mm,m,ss,s,ampm,AMPM,dMod,th;
+		  YY = ((YYYY=this.getFullYear())+"").slice(-2);
+		  MM = (M=this.getMonth()+1)<10?('0'+M):M;
+		  MMM = (MMMM=["January","February","March","April","May","June","July","August","September","October","November","December"][M-1]).substring(0,3);
+		  DD = (D=this.getDate())<10?('0'+D):D;
+		  DDD = (DDDD=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][this.getDay()]).substring(0,3);
+		  th=(D>=10&&D<=20)?'th':((dMod=D%10)==1)?'st':(dMod==2)?'nd':(dMod==3)?'rd':'th';
+		  formatString = formatString.replace("#YYYY#",YYYY).replace("#YY#",YY).replace("#MMMM#",MMMM).replace("#MMM#",MMM).replace("#MM#",MM).replace("#M#",M).replace("#DDDD#",DDDD).replace("#DDD#",DDD).replace("#DD#",DD).replace("#D#",D).replace("#th#",th);
+		  h=(hhh=this.getHours());
+		  if (h==0) h=24;
+		  if (h>12) h-=12;
+		  hh = h<10?('0'+h):h;
+		  hhhh = h<10?('0'+hhh):hhh;
+		  AMPM=(ampm=hhh<12?'am':'pm').toUpperCase();
+		  mm=(m=this.getMinutes())<10?('0'+m):m;
+		  ss=(s=this.getSeconds())<10?('0'+s):s;
+		  return formatString.replace("#hhhh#",hhhh).replace("#hhh#",hhh).replace("#hh#",hh).replace("#h#",h).replace("#mm#",mm).replace("#m#",m).replace("#ss#",ss).replace("#s#",s).replace("#ampm#",ampm).replace("#AMPM#",AMPM);
+		};	
+
+		var distances = !{JSON.stringify(locals.distances)};
+
+		$(function() {
+		  InitChart(distances);
+		});
+
+		var bottomTank = _.min(_.pluck(distances, 'y'));
+
+		var timeFormat = d3.time.format("%b, %e %H:00");
+
+		var dateVals = _.map(_.pluck(distances, 'x'), function (el) {
+
+		})
+
+		var xMin = d3.min(distances, function (d) { return Math.min(d.x); });
+		var xMax = d3.max(distances, function (d) { return Math.max(d.x); });
+
+		var InitChart = function InitChart(lineData) {
+		  var vis = d3.select("#visualization"),
+			WIDTH = 800,
+			HEIGHT = 300,
+			MARGINS = {
+			  top: 20,
+			  right: 20,
+			  bottom: 20,
+			  left: 50
+			},
+
+			x = d3.scale.linear()
+			.range([0, WIDTH]),
+
+			y = d3.scale.linear()
+			.range([HEIGHT, 0]),
+
+			xScale = d3.time.scale()
+					 .domain([xMin, xMax])
+					 .range([MARGINS.left, WIDTH - MARGINS.right]),
+
+			yScale = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([bottomTank - 20,250]),
+
+
+			xAxis = d3.svg.axis()
+			  .scale(xScale)
+			  .orient("bottom")
+			  .ticks(d3.time.hours, 12)
+			  .tickSize(5)
+			  .tickFormat(timeFormat)
+
+			yAxis = d3.svg.axis()
+			  .scale(yScale)
+			  .tickSize(5)
+			  .orient("left")
+			  .tickSubdivide(true);
+
+			vis.attr("width", "100%");
+
+			vis.append("svg:g")
+				.attr("class", "x axis")
+				.attr("transform", "translate(0," + (HEIGHT - MARGINS.bottom) + ")")
+				.call(xAxis)
+				.append("text")
+				.attr("x", WIDTH / 2 - 10)
+				.attr("y", MARGINS.bottom)
+				.attr("dy", ".71em")
+				.style("text-anchor", "middle")
+				.text("Index");
+
+			vis.append("svg:g")
+				.attr("class", "y axis")
+				.attr("transform", "translate(" + (MARGINS.left) + ",0)")
+				.call(yAxis)
+				.append("text")
+				.attr("transform", "rotate(-90)")
+				.attr("y", 0 - MARGINS.left + 10)
+				.attr("x",0 - (HEIGHT / 2))
+				.style("text-anchor", "middle")
+				.text("Water Height");
+
+		  var lineFunc = d3.svg.line()
+			.x(function(d) {
+			  return xScale(d.x);
+			})
+			.y(function(d) {
+			  return yScale(d.y);
+			})
+			.interpolate('linear');
+
+
+		  vis.append('svg:path')
+			.attr('d', lineFunc(lineData))
+			.attr('stroke', 'blue')
+			.attr('stroke-width', 2)
+			.attr('fill', 'none');
+
+		 //-  vis.selectAll("dot")
+			//- .data(lineData)
+			//- .enter().append("circle")
+			//- .attr("r", 3.5)
+			//- .attr("cx", function(d) { return x(d.x); })
+			//- .attr("cy", function(d) { return y(d.y); });
+
+		}
 block body
-    //- - console.log("DATA is", locals)
-    ul
-      each message in locals
-        li
-          ul 
-            li TimeStamp: #{message.timestamp}
-            li Signal: #{message.signalStrength}
-            li Network: #{message.network}
-            li GPS: #{message.gpsCoords}
+	// Fixed navbar
+	nav.navbar.navbar-default.navbar-fixed-top
+		.container
+			.navbar-header
+				button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls='navbar')
+					span.sr-only Toggle navigation
+					span.icon-bar
+					span.icon-bar
+					span.icon-bar
+				a.navbar-brand(href='#') Raincatcher
+
+
+	.container
+		.page-header
+			h1 Tank Data
+		p.lead
+			| Test data collected by Harvey Mudd College Raincatcher Clinic Team
+
+		.row
+			.col-sm-4
+				- var waterHeight = 250 - locals.load[locals.load.length-1].distance // take inverse of most recent collected point
+				- var waterPercent = (waterHeight / 250) * 100
+				h4 Tank Level
+				div.tank-box
+					div.tank
+						div(class='water' style='height:'+waterPercent+'%;')
+							div.tank-level
+								| #{waterHeight} cm.
+					div.tank-metric
+						div.tank-top
+							| 250 cm.
+						div.tank-bottom
+							| 0 cm.	
+			.col-sm-8
+				h4 Graph
+				div.water-graph
+					svg(id="visualization", width="800px", height="300px")
+		.row
+			h3 Data
+			.table-responsive.scrollable
+				table.table.table-striped
+					thead
+						th Index:
+						th Distance: 
+						th Timestamp:
+					each message, index in locals.load
+						- var height = 250 - message.distance // inverse distance
+						tr.list-item 
+							td #{index}
+							td #{height} cm
+							td #{message.createdAt}
